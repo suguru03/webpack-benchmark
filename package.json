@@ -6,10 +6,22 @@
   "repository": "git@github.com:suguru03/webpack-benchmark.git",
   "author": "Suguru Motegi <smotegi@bns-g.com>",
   "license": "MIT",
+  "scripts": {
+    "benchmark": "node lib/benchmark",
+    "precommit": "lint-staged"
+  },
   "dependencies": {
     "benchmark": "^2.1.4",
     "lodash": "^4.17.5",
     "minimist": "^1.2.0",
     "neo-async": "^2.5.0"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.1",
+    "prettier": "^1.10.2"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
   }
 }
