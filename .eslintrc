@@ -1,0 +1,9 @@
+env:
+  node: true
+extends: 'eslint:recommended'
+parserOptions:
+  ecmaVersion: 8
+rules:
+  no-console: 0
+  no-case-declarations: 0
+  no-fallthrough: 0

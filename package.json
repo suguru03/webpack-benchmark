@@ -1,0 +1,15 @@
+{
+  "name": "webpack-benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "repository": "git@github.com:suguru03/webpack-benchmark.git",
+  "author": "Suguru Motegi <smotegi@bns-g.com>",
+  "license": "MIT",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "lodash": "^4.17.5",
+    "neo-async": "^2.5.0",
+    "webpack": "^4.0.0-beta.2"
+  }
+}
