@@ -18,6 +18,6 @@ $ git clone --branch feature/neo-async git@github.com:suguru03/webpack.git neo-a
 $ cd neo-async
 $ yarn install
 
-$ cd ..
+$ cd ../../
 $ yarn benchmark neo-async v4.0.0-beta.2
 ```

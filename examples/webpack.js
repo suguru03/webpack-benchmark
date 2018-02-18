@@ -7,13 +7,7 @@ const _ = require("lodash");
 
 const testFiles = {
   "additional-pass": ["simple"],
-  "async-commons-chunk": [
-    "all-selected",
-    "duplicate",
-    "existing-name",
-    "nested",
-    "simple"
-  ],
+  "async-commons-chunk": ["all-selected", "duplicate", "existing-name", "nested", "simple"],
   "code-generation": ["require-context-id", "use-strict"],
   "commons-chunk-plugin": [
     "correct-order",
@@ -168,43 +162,17 @@ module.exports = _.transform(
           done(null, { webpack, config });
         },
         execute({ webpack, config }, done) {
-          webpack(config, done);
+          webpack(copyConfig(config), done);
         }
       };
     });
   },
   {}
 );
-// module.exports = {
-// 	test: {
-// 		prepare(dirpath, done) {
-// 			const webpackPath = path.join(dirpath, "lib/webpack.js");
-// 			const contextPath = path.join(dirpath, "test/configCases/parsing/context");
-// 			const webpack = require(webpackPath);
-// 			const createConfig = () => ({
-// 				module:
-// 				{ unknownContextRegExp: /^\.\//,
-// 					unknownContextCritical: false,
-// 					exprContextRegExp: /^\.\//,
-// 					exprContextCritical: false },
-// 				context: contextPath,
-// 				mode: "production",
-// 				optimization: { minimize: false },
-// 				entry: "./index.js",
-// 				target: "async-node",
-// 				output:
-// 				{ path: contextPath,
-// 					pathinfo: true,
-// 					filename: "bundle0.js"
-// 				}
-// 			});
-// 			done(null, { webpack, createConfig });
-// 		},
-// 		execute({ webpack, createConfig }, done) {
-// 			webpack(createConfig(), done);
-// 		}
-// 	}
-// }
+
+function copyConfig(config) {
+  return _.mapValues(config, _.clone);
+}
 
 function createConfig(dirpath, categoryName, testName) {
   dirpath = path.join(dirpath, "test");
@@ -234,9 +202,7 @@ function createConfig(dirpath, categoryName, testName) {
 
   // filter
   categories = categories.filter(c => c.name === categoryName);
-  categories.forEach(
-    c => (c.tests = c.tests.filter(name => name === testName))
-  );
+  categories.forEach(c => (c.tests = c.tests.filter(name => name === testName)));
 
   const opts = {};
   categories.forEach(category => {
@@ -244,31 +210,20 @@ function createConfig(dirpath, categoryName, testName) {
     category.tests.forEach(testName => {
       try {
         const testDirectory = path.join(casesPath, category.name, testName);
-        const outputDirectory = path.join(
-          dirpath,
-          "js",
-          "config",
-          category.name,
-          testName
-        );
-        const options = prepareOptions(
-          require(path.join(testDirectory, "webpack.config.js"))
-        );
+        const outputDirectory = path.join(dirpath, "js", "config", category.name, testName);
+        const options = prepareOptions(require(path.join(testDirectory, "webpack.config.js")));
         const optionsArr = [].concat(options);
         optionsArr.forEach((options, idx) => {
           if (!options.context) options.context = testDirectory;
           if (!options.mode) options.mode = "production";
           if (!options.optimization) options.optimization = {};
-          if (options.optimization.minimize === undefined)
-            options.optimization.minimize = false;
+          if (options.optimization.minimize === undefined) options.optimization.minimize = false;
           if (!options.entry) options.entry = "./index.js";
           if (!options.target) options.target = "async-node";
           if (!options.output) options.output = {};
           if (!options.output.path) options.output.path = outputDirectory;
-          if (typeof options.output.pathinfo === "undefined")
-            options.output.pathinfo = true;
-          if (!options.output.filename)
-            options.output.filename = "bundle" + idx + ".js";
+          if (typeof options.output.pathinfo === "undefined") options.output.pathinfo = true;
+          if (!options.output.filename) options.output.filename = "bundle" + idx + ".js";
         });
         opts[`${name}/${testName}`] = options;
       } catch (e) {
