@@ -1,12 +1,12 @@
 # webpack-benchmark
 
-The library compares two Webpack versions performance.
+The library compares some Webpack versions/branches performance.
 
 ## Execute
 
 ```sh
 $ yarn benchmark v4.0.0-beta.1 v4.0.0-beta.2
-$ yarn benchmark v4.0.0-beta.1 v4.0.0-beta.2 -t parsing/context
+$ yarn benchmark v4.0.0-beta.1 v4.0.0-beta.2 next -t parsing/context
 ```
 
 ## Compare your remove branch
